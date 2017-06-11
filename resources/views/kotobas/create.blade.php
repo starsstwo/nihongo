@@ -13,12 +13,21 @@
                         <span class="help-block"></span>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="activity_category">Phonetic<span class="asterisk">*</span></label>
+                    <div class="col-md-10">
+                        <input type="text" id="phonetic_kotoba" class="form-control" name="phonetic" value="" placeholder="">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
                 <div id = 'mean_parent'>
                     <div class="form-group" id='mean0'>
                         <label class="col-md-2 control-label">Mean<span class="asterisk">*</span></label>
-                        <div class="col-md-10">
+                        <div class="col-md-9">
                             <input type="text" id="mean_kotoba_0" class="form-control" name="mean_kotoba[]" value="" placeholder="">
-                            <span class="help-block"></span>
+                        </div>
+                        <div class="col-md-1">
+                          <button type="button" id="delete_mean" class="btn btn-danger pull-right">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -26,34 +35,40 @@
             </div>
         </div>
         <input type="submit" name="submit_kotoba_create" value="Create" class="btn btn-primary pull-center">
+        <button type="button" class="btn btn-default pull-center">Back</button>
         {!! Form::close() !!}
     </div>
 </div>
 
 <script>
     $(document).ready(function(){
-        var count = 1;
+        var meanCount = 1;
+        $("#delete_mean").attr('disabled','disabled');
         $("#add_more").click(function(){
-            var newInputDiv = $(document.createElement('div')).attr("id", "mean" + count);
+            var newInputDiv = $(document.createElement('div')).attr("id", `mean${meanCount}`);
             newInputDiv.attr("class", "form-group");
-            newInputDiv.after().html('<label class="col-md-2 control-label">Mean</label><div class="col-md-10"><input type="text" id="mean_kotoba_' + count + '" class="form-control" name="mean_kotoba[]" value="" placeholder=""><span class="help-block"></span><button type="button" id="delete_mean" class="btn btn-danger pull-right">Delete</button>');
+            newInputDiv.after().html(`
+              <label class="col-md-2 control-label">Mean<span class="asterisk">*</span></label>
+              <div class="col-md-9">
+                <input type="text" id="mean_kotoba_${meanCount}" class="form-control" name="mean_kotoba[]" value="" placeholder="">
+              </div>
+              <div class="col-md-1">
+                <button type="button" id="delete_mean" class="btn btn-danger pull-right">Delete</button>
+              </div>
+            `);
             newInputDiv.appendTo('#mean_parent');
-            count++;
+            meanCount++;
+            if (meanCount > 1) {
+              $("#delete_mean").removeAttr('disabled');
+            }
         });
         $("#add_kotoba").on('click', '#delete_mean', function () {
-            console.log($(this));
             $(this).parent("div").parent("div").remove();
-            // if(counter==1){
-            //     alert("No more textbox to remove");
-            //     return false;
-            // }
-
-            // counter--;
-
-            // $("#mean" + counter).remove();
-
+            meanCount--;
+            if (meanCount == 1) {
+              $("#delete_mean").attr('disabled','disabled');
+            }
         });
-
     });
 </script>
 @endsection

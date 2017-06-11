@@ -18,4 +18,12 @@ class KotobaModel extends Model
     {
         return $this->hasMany('App\ImiModel', 'kotoba_id');
     }
+
+    public function scopeLists($query, $id)
+    {
+        return $query
+            ->selectRaw('kotobas.id as id, name, phonetic, group_concat(imis.mean) as mean')
+            ->join('imis', 'kotobas.id', '=', 'imis.kotoba_id')
+            ->where('user_id', $id)->groupBy('kotobas.id');
+    }
 }

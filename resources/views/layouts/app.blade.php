@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -20,6 +21,7 @@
         ]); ?>
     </script>
     <script src="{{asset('js/jquery.min.js')}}"></script>
+    <script src="{{asset('js/jquery.flip.js')}}"></script>
 </head>
 <body>
     <div id="app">
